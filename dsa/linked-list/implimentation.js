@@ -33,16 +33,90 @@ class LinkedList {
   }
 
   insertAt(index, nodeToInsert) {
-    let idx = 0;
+    if (index > this.length) {
+      throw new Error("Index out of bound");
+    }
+
+    if (index === 0) {
+      nodeToInsert.next = this.head;
+      this.head = nodeToInsert;
+      this.length++;
+      return;
+    }
+
+    let current = this.head;
+    let prev = null;
+    let currentIndex = 0;
+
+    while (currentIndex < index) {
+      prev = current;
+      current = current.next;
+      currentIndex++;
+    }
+
+    prev.next = nodeToInsert;
+    nodeToInsert.next = current;
+    this.length++;
+  }
+
+  remove(val) {
+    let current = this.head;
+    let prev = null;
+
+    while (current && current.data !== val) {
+      prev = current;
+      current = current.next;
+    }
+
+    if (!current) return;
+
+    prev.next = current.next;
+    this.length--;
+  }
+
+  prepend(newNode) {
+    if (newNode) {
+      newNode.next = this.head;
+      this.head = newNode;
+      this.length++;
+      return this;
+    }
+  }
+
+  getNode(index) {
+    if (index > this.length) {
+      return;
+    }
+
+    let idx = 1;
     let current = this.head;
 
-    while (idx !== index - 1) {
+    while (idx < index) {
       current = current.next;
       idx++;
     }
-    nodeToInsert.next = current.next;
-    current.next = nodeToInsert;
-    this.length++;
+
+    return current.data;
+  }
+
+  clear() {
+    this.head = null;
+  }
+
+  getSize() {
+    // return this.length;
+
+    // OR
+
+    let counter = 1;
+    let current = this.head;
+
+    while (current.next) {
+      current = current.next;
+      counter++;
+    }
+
+    return counter;
   }
 }
 
@@ -51,6 +125,8 @@ const node = new ListNode(1);
 const linkedList = new LinkedList(node);
 linkedList.push(2);
 linkedList.push(4);
-linkedList.insertAt(2, new ListNode(5));
-// linkedList.pop();
-console.log(linkedList);
+linkedList.insertAt(2, new ListNode(3));
+linkedList.prepend(new ListNode(0));
+console.log(linkedList.getSize());
+
+// console.log(linkedList);
