@@ -2,6 +2,7 @@ class ListNode {
   constructor(data = null) {
     this.data = data;
     this.next = null;
+    this.prev = null;
   }
 }
 
@@ -13,7 +14,10 @@ class LinkedList {
   }
 
   push(val) {
-    this.tail.next = new ListNode(val);
+    const newNode = new ListNode(val);
+    newNode.prev = this.tail;
+
+    this.tail.next = newNode;
     this.tail = this.tail.next;
     this.length++;
   }
@@ -34,7 +38,7 @@ class LinkedList {
 
   insertAt(index, nodeToInsert) {
     if (index > this.length) {
-      throw new Error("Index out of bound");
+      throw new Error('Index out of bound');
     }
 
     if (index === 0) {
@@ -76,6 +80,7 @@ class LinkedList {
 
   prepend(newNode) {
     if (newNode) {
+      this.head.prev = newNode;
       newNode.next = this.head;
       this.head = newNode;
       this.length++;
@@ -99,10 +104,6 @@ class LinkedList {
     return current.data;
   }
 
-  clear() {
-    this.head = null;
-  }
-
   getSize() {
     // return this.length;
 
@@ -118,15 +119,27 @@ class LinkedList {
 
     return counter;
   }
+
+  getLast() {
+    // return this.tail.data;
+
+    // OR
+
+    return this.getNode(this.length);
+  }
+
+  clear() {
+    this.head = null;
+  }
 }
 
 const node = new ListNode(1);
 
 const linkedList = new LinkedList(node);
 linkedList.push(2);
-linkedList.push(4);
-linkedList.insertAt(2, new ListNode(3));
-linkedList.prepend(new ListNode(0));
-console.log(linkedList.getSize());
+// linkedList.push(4);
+// linkedList.insertAt(2, new ListNode(3));
+// linkedList.prepend(new ListNode(0));
+// console.log(linkedList.getLast());
 
-// console.log(linkedList);
+console.log(linkedList);
