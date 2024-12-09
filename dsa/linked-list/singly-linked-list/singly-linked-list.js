@@ -89,6 +89,23 @@ class LinkedList {
     }
   }
 
+  reverse() {
+    let temp = this.head;
+    let prev = null;
+
+    while (temp) {
+      const front = temp.next;
+
+      temp.next = prev;
+      prev = temp;
+
+      temp = front;
+    }
+
+    this.tail = this.head;
+    this.head = prev;
+  }
+
   getNode(index) {
     if (index > this.length) {
       return;
@@ -137,7 +154,8 @@ class LinkedList {
 const node = new ListNode(1);
 
 const linkedList = new LinkedList(node);
-// linkedList.push(2);
+linkedList.push(2);
+linkedList.reverse();
 // linkedList.push(4);
 // linkedList.insertAt(2, new ListNode(3));
 // linkedList.prepend(new ListNode(0));

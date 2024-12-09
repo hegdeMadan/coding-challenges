@@ -78,6 +78,24 @@ class LinkedList {
     this.length--;
   }
 
+  reverse() {
+    let current = this.head;
+    let prev = null;
+
+    while (current) {
+      const front = current.next;
+
+      current.next = prev;
+      current.prev = front;
+
+      prev = current;
+      current = front;
+    }
+
+    this.tail = this.head;
+    this.head = prev;
+  }
+
   prepend(newNode) {
     if (newNode) {
       this.head.prev = newNode;
